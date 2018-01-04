@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 
@@ -47,7 +49,17 @@
     </div>
   </div>
 
-  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio data-key="65" src="sounds/1.wav"></audio>
+  <audio data-key="83" src="sounds/2.wav"></audio>
+  <audio data-key="68" src="sounds/3.wav"></audio>
+  <audio data-key="70" src="sounds/4.wav"></audio>
+  <audio data-key="71" src="sounds/5.wav"></audio>
+  <audio data-key="72" src="sounds/6.wav"></audio>
+  <audio data-key="74" src="sounds/7.wav"></audio>
+  <audio data-key="75" src="sounds/8.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
+
+  <!-- <audio data-key="65" src="sounds/clap.wav"></audio>
   <audio data-key="83" src="sounds/hihat.wav"></audio>
   <audio data-key="68" src="sounds/kick.wav"></audio>
   <audio data-key="70" src="sounds/openhat.wav"></audio>
@@ -55,12 +67,37 @@
   <audio data-key="72" src="sounds/ride.wav"></audio>
   <audio data-key="74" src="sounds/snare.wav"></audio>
   <audio data-key="75" src="sounds/tom.wav"></audio>
-  <audio data-key="76" src="sounds/tink.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio> -->
 
-<script>
+  <script>
+    function playSound(e) {
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+      const key = document.querySelector(`div[data-key="${e.keyCode}"]`)
+      if (!audio) {// check
+        return // stop the function from running all together
+      }
+      audio.currentTime = 0 // rewind to the start
+      audio.play()
 
-</script>
+      key.classList.add('playing')
+      setTimeout(() => {
+        key.classList.remove('playing')
+      }, 70);
+    }
+    function removeTransition(e) {
+      if (e.propertyName !== 'transform') {
+        return
+      }
+      console.log('remove success')
+      this.classList.remove('playing')
+    }
+
+    window.addEventListener('keydown', playSound)
+    // const keys = document.querySelectorAll('.key')
+    // keys.forEach(key => key.addEventListener('transitionend', removeTransition))
+  </script>
 
 
 </body>
+
 </html>

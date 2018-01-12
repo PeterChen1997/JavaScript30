@@ -16,6 +16,49 @@
   </form>
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+const cities = []
+
+fetch(endpoint)
+  .then(items => items.json())
+  .then(items => {
+    cities.push(...items)
+  })
+console.log(cities)
+
+let input = document.querySelector('.search')
+let lists = document.querySelector('.suggestions')
+
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function changedCities() {
+  let value = this.value
+  let regex = new RegExp(value, 'gi')
+  let result = cities.filter(item => {
+    return item.city.match(regex) || item.state.match(regex)
+  })
+  // console.log(result)
+ 
+  let html = result.map(item => {
+    let cityName = item.city.replace(regex, `<span class="hl">${value}</span>`)
+    let stateName = item.state.replace(regex, `<span class="hl">${value}</span>`)
+    let population = numberWithCommas(item.population)
+    return `
+    <li>
+      <span class="name">${cityName},${stateName}</span>
+      <span class="population">${population}</span>
+    </li>
+    `
+  }).join('')
+  lists.innerHTML = html
+}
+
+input.addEventListener('change', changedCities)
+input.addEventListener('keyup', changedCities)
+
+
 
 </script>
   </body>

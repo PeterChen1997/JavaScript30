@@ -2,16 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <div class="title">Welcome to your board</div>
   <title>HTML5 Canvas</title>
 </head>
 <body>
-<canvas id="draw" width="800" height="800"></canvas>
+<canvas id="draw" width="800" height="800" style="margin:auto;width:100%;"></canvas>
 <script>
+  const canvas = document.querySelector('#draw')
+  const ctx = canvas.getContext('2d')
+
+  canvas.width = window.innerWidth 
+  canvas.height = window.innerHeight - 70
+
+  ctx.strokeStyle = '#BADA55'
+  ctx.lineJoin = 'round'
+  ctx.lineCap = 'round'
+  ctx.lineWidth = 100
+
+  let isDrawing = false
+  let lastX,lastY
+  let drawingDirection = false
+  let hue = 0
+
+  function draw(e) {
+    if(!isDrawing) {
+      return
+    }
+    
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+    ctx.beginPath()
+    // start from
+    ctx.moveTo(lastX,lastY)
+    // go to
+    ctx.lineTo(e.offsetX, e.offsetY)
+    // draw
+    ctx.stroke()
+
+    update(e)
+  }
+
+  function update(e) {
+
+    [lastX, lastY] = [e.offsetX,e.offsetY]
+
+    // 调整大小
+    if(!drawingDirection && ctx.lineWidth > 10) {
+      ctx.lineWidth--
+    } else if (drawingDirection && ctx.lineWidth <= 100) {
+      ctx.lineWidth++
+    } else {
+      drawingDirection = !drawingDirection
+    }
+    // 调整颜色
+    hue >= 360 ? hue = 0 : hue ++
+  }
+
+  canvas.addEventListener('mousedown', (e) => {
+    // !!!此处必须要加分号，否则解释器无法完成赋值!!!
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX,e.offsetY]
+    // lastX = e.offsetX
+    // lastY = e.offsetY
+  })
+  canvas.addEventListener('mousemove', draw)
+  canvas.addEventListener('mouseup', () => isDrawing = false)
+  // canvas.addEventListener('mouseout', () =>{
+  //   isDrawing = false
+  // })
+
 </script>
 
 <style>
   html, body {
     margin:0;
+    width: 100%;
+  }
+
+  .title {
+    width: 40%;
+    margin: auto;
+    text-align: center;
+    font-size: 45px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
+    background-color: #BADA55;
+    height: 60px;
+    line-height: 60px;
   }
 </style>
 

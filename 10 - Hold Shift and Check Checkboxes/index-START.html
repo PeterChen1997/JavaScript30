@@ -99,6 +99,32 @@
   </div>
 
 <script>
+  const inputs = document.querySelectorAll('input')
+  let lastSelect
+  let middleInput
+  let startToRecord = true
+  let inBetween = false
+
+  function click(e) {
+    if(lastSelect == this) {
+      startToRecord = !startToRecord
+    } else if(startToRecord && e.shiftKey) {
+      console.log('start')
+      inputs.forEach(input => {
+        if(input == this || input == lastSelect) {
+          inBetween = !inBetween
+        }
+        if(inBetween) {
+          input.checked = true
+        }
+      })
+    }
+    lastSelect = this
+  }
+  inputs.forEach(input => {
+    input.addEventListener('click', click)
+  })
+  
 </script>
 </body>
 </html>

@@ -42,6 +42,13 @@ body {
   width: 100%;
 }
 
+.player__font {
+  font-size: 8px;
+  color: white;
+  max-width: 30px;
+  text-align: center;
+}
+
 .player__button {
   background:none;
   border:0;
@@ -54,13 +61,15 @@ body {
   max-width:50px;
 }
 
-.player__button:focus {
-  border-color: #ffc600;
+
+
+.player__button:hover {
+  color: #ffc600;
 }
 
 .player__slider {
   width:10px;
-  height:30px;
+  height:42px;
 }
 
 .player__controls {
@@ -98,10 +107,10 @@ body {
 }
 
 .progress__filled {
-  width:50%;
+  width:100%;
   background:#ffc600;
   flex:0;
-  flex-basis:50%;
+  flex-basis:0%;
 }
 
 /* unholy css to style input type="range" */

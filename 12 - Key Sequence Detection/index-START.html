@@ -7,6 +7,20 @@
 </head>
 <body>
 <script>
+  let pressed = []
+  let word = ''
+  let secredCode = 'nice'
+  window.addEventListener('keyup', (e) => {
+    pressed.push(e.key)
+    
+    word = pressed.join('')
+    console.log(word)
+    if(word.includes(secredCode)) {
+      cornify_add()
+      pressed = []
+      console.log('ding')
+    }
+  })
 </script>
 </body>
 </html>

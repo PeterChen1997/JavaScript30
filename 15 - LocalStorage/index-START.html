@@ -23,13 +23,77 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <input type="button" id="deleteBtn" value="- Delete Completed Item" class="add-btn" style="background-color:rgb(165, 67, 42);color:white;">
+    <input type="button" id="resetBtn" value="! Reset" class="add-btn" style="background-color:rgb(0, 204, 255);margin-left:47px;">
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  let items = getItems() || [];
+  const deleteBtn = document.querySelector('#deleteBtn')
+  const resetBtn = document.querySelector('#resetBtn')
 
+  function addItem(e) {
+    e.preventDefault()
+    const text = this.querySelector('[name=item]').value
+    const item = {
+      text,
+      done: false
+    }
+    items.push(item)
+    populateList(items)
+    setItems()
+    this.reset()
+  }
+
+  function setItems() {
+    localStorage.setItem('items', JSON.stringify(items))
+  }
+  function getItems() {
+    let items = JSON.parse(localStorage.getItem('items'))
+    return items
+  }
+
+  function populateList(items) {
+    if(!items)
+      itemsList.innerHTML = ''
+    else {
+      itemsList.innerHTML = items.map((item, i) => {
+        return `
+          <li>
+            <input type="checkbox" data-index=${i} id="item${i}" ${item.done ? 'checked' : ''}/>
+            <label for="item${i}">${item.text}</label>
+          </li>
+        `
+      }).join("")
+    }
+  }
+  
+  function toggleDown(e) {
+    if(!e.target.matches('input')) 
+      return
+    let index = e.target.dataset.index
+    items[index].done = !items[index].done
+    setItems()
+  }
+
+  function deleteCompletedItems() {
+    items = items.filter(item => !item.done)
+    setItems()
+    populateList(items)
+  }
+  function resetAllItems() {
+    items = []
+    setItems()
+    populateList(items)    
+  }
+
+  addItems.addEventListener('submit', addItem)
+  itemsList.addEventListener('click', toggleDown)
+  populateList(items)
+  deleteBtn.addEventListener('click', deleteCompletedItems)
+  resetBtn.addEventListener('click', resetAllItems)
 </script>
 
 

@@ -11,8 +11,32 @@
 
 <script>
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recog = new SpeechRecognition()
+  recog.interimResults = true
+  recog.lang = 'zh-CN'
 
+  let p = document.createElement('p')
+  const words = document.querySelector('.words')
+  words.appendChild(p)
 
+  recog.addEventListener('result', e => {
+    const transcript = [ ...e.results ]
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('')
+    
+      const changed = transcript.replace(/牛逼/gi, 'bang')
+
+      p.textContent = changed
+      
+    if(e.results[0].isFinal) {
+      p = document.createElement('p')
+      words.appendChild(p)
+    }
+  })
+  recog.addEventListener('end', recog.start)
+
+  recog.start();
 </script>
 
 

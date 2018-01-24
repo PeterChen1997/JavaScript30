@@ -177,11 +177,29 @@
     <li data-time="1:56">
       Video 57
     </li>
-    <li data-time="4:04">
+    <li data-time="4:06">
       Video 58
     </li>
   </ul>
 <script>
+  const tags = [ ...document.querySelectorAll('[data-time]') ]
+  const seconds = tags
+    .map(tag => tag.dataset.time)
+    .map(tag => {
+      const [minute, second] = tag.split(':').map(parseFloat)
+      return minute * 60 + second
+    })
+    .reduce((total, item) => total + item)
+
+  let secondsLeft = seconds
+
+  const hours = Math.floor(secondsLeft / 3600)
+  secondsLeft = secondsLeft % 3600
+
+  const mins = secondsLeft / 60
+
+  secondsLeft = secondsLeft % 60
+  console.log(hours, mins, secondsLeft)
 </script>
 </body>
 </html>

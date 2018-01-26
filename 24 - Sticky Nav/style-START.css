@@ -12,6 +12,10 @@ body {
   box-sizing: inherit;
 }
 
+.fixed-nav .site-wrap {
+  transform: scale(1)
+}
+
 .site-wrap {
   max-width: 700px;
   margin: 70px auto;
@@ -39,6 +43,10 @@ h1 {
   text-shadow: 3px 4px 0 rgba(0,0,0,0.2)
 }
 
+.fixed-nav nav {
+  position: fixed;
+}
+
 nav {
   background:black;
   top:0;
@@ -63,11 +71,14 @@ nav li {
   align-items: center;
 }
 
+.fixed-nav li.logo {
+  max-width: 500px;
+}
 li.logo {
   max-width:0;
   overflow: hidden;
   background: white;
-  transition: all .5s;
+  transition: all 1s;
   font-weight: 600;
   font-size: 30px;
 }

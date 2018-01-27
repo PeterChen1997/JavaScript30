@@ -39,7 +39,17 @@
 
 <button></button>
 <script>
+  const divs = document.querySelectorAll('div')
 
+  function consoleText(e) {
+    // e.stopPropagation() // 阻止冒泡
+    console.log(this.classList.value)
+  }
+
+  divs.forEach(div => div.addEventListener('click', consoleText, {
+    capture: false, // 从上到下
+    once: false // 直触发一次
+  }))
 </script>
 </body>
 </html>
